@@ -14,7 +14,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // static files middleware
 app.use(express.static('public'))
-
+//sessions middleware 
+app.use(session({
+  secret: 'Imsosecret',
+  resave: false,
+  saveUninitialized: false
+}))
 
 // CONTROLLERS
 // fitting room three
@@ -31,7 +36,7 @@ app.get('/', (req, res) => {
 // SEED ROUTE
 // NOTE: Do NOT run this route until AFTER you have a create user route up and running, as well as encryption working!
 const seed = require('./models/seed.js');
-// const User = require('./models/users.js');
+const User = require('./models/users.js');
 
 app.get('/seedAgents', (req, res) => {
   // encrypts the given seed passwords
