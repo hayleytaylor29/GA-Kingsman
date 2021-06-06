@@ -20,18 +20,31 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+})
 
 // CONTROLLERS
 // fitting room three
 const roomController = require('./controllers/room.js');
 app.use('/room', roomController);
-
+//users
+const userController = require('./controllers/users');
+app.use('/users', userController);
+//session
+const sessionsController = require('./controllers/sessions');
+app.use('/sessions', sessionsController);
 
 // GET INDEX
 app.get('/', (req, res) => {
   res.render('index.ejs', {});
 });
 
+//session route
+app.get('/new', (req, res) => {
+  req.session.login = 'password'
+})
 
 // SEED ROUTE
 // NOTE: Do NOT run this route until AFTER you have a create user route up and running, as well as encryption working!
