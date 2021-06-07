@@ -20,10 +20,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
-app.use(function (req, res, next) {
-  res.locals.session = req.session;
-  next();
-})
 
 // CONTROLLERS
 // fitting room three
@@ -38,18 +34,24 @@ app.use('/sessions', sessionsController);
 
 // GET INDEX
 app.get('/', (req, res) => {
-  res.render('index.ejs', {});
+  res.render('index.ejs', {
+    isLoggedIn: req.session.isLoggedIn
+  });
 });
 
 //session route
 app.get('/new', (req, res) => {
   req.session.login = 'password'
+  if (req.session !== null) {
+    console.log('test')
+  }
 })
 
 // SEED ROUTE
 // NOTE: Do NOT run this route until AFTER you have a create user route up and running, as well as encryption working!
 const seed = require('./models/seed.js');
 const User = require('./models/users.js');
+
 
 app.get('/seedAgents', (req, res) => {
   // encrypts the given seed passwords

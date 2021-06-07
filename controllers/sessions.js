@@ -3,6 +3,7 @@ const session = require('express-session');
 const router = express.Router();
 const User = require('../models/users');
 
+
 //create a new user
 router.get('/new', (req, res) => {
     res.render('./sessions/new.ejs');
@@ -12,8 +13,9 @@ router.post('/', (req, res) => {
     User.findOne({'username': req.body.username}, (err,
         foundUser) => {
             if (req.body.password === foundUser.password) {
+                req.session.isLoggedIn = true;
                 console.log('logged in')
-                console.log(req.session)
+                console.log(foundUser)
                 res.redirect('/room')
             } else {
                 res.send('Incorrect Login Info, Try Again!')

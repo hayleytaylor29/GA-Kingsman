@@ -25,11 +25,11 @@
           <li><a href="/room">fitting room three</a></li>
           <!-- add your form button to log out here -->
           <li>
-            <% if (locals.session.loggedin) { %>
-            <a href="/logout">logout</a>
-             <% } else { %>
-                <a href="sessions/new">login</a>
-            <% } %>
+            <% if(isLoggedIn) { %>
+            <a href="/sessions/logout">LOGOUT</a>
+            <% } else { %>
+              <a href="/sessions/new">LOGIN</a>
+              <% } %>
           </li>
         </ul>
       </div>
